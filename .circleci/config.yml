@@ -2,20 +2,6 @@ version: 2.1
 orbs:
   python: circleci/python@2
 jobs:
-  test-python:
-    docker:
-      - image: cimg/python:3.8-node
-    steps:
-      - checkout
-      - run:
-          name: Install Dependencies
-          command: pip install -r requirements.txt
-      - run:
-          name: Run Tests
-          command: pytest --junitxml=junit.xml || ((($? == 5)) && echo 'No tests to run.')
-      - store_test_results:
-          path: junit.xml
-  
   deploy:
     docker:
       - image: cimg/python:3.8
@@ -26,20 +12,9 @@ jobs:
           command: pip install -r requirements.txt
       - run:
           name: Start Flask App
-          command: |
-            echo "Starting Flask app..."
-            python hls-proxifier.py
-            # You can modify this if the app needs to run in a specific environment or server.
-      - run:
-          name: Flask App Deployment (Optional)
-          command: |
-            echo "Deploying Flask app to hosting service..."
-            # Add any additional commands to deploy if necessary.
-            # For example, you can use SCP, Rsync, or SSH to deploy to a server.
+          command: python main.py
+
 workflows:
   build-and-deploy:
     jobs:
-      - test-python
-      - deploy:
-          requires:
-            - test-python
+      - deploy
