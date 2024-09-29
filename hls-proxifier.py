@@ -16,12 +16,14 @@ limitations under the License.
 '''
 
 from flask import Flask, request, url_for, Response
+from flask_cors import CORS
 from urllib.parse import urljoin, urlparse
 import requests
 import m3u8
 import json
 
 proxy = Flask(__name__)
+CORS(proxy)
 
 MAX_RETRIES = 5
 
