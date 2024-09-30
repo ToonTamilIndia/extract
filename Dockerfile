@@ -14,6 +14,6 @@ RUN apt-get update && \
 COPY . .
 
 # Specify the command to run on container start
-CMD ["python", "hls-proxifier.py"]
+CMD ["python", "main.py"]
 
 EXPOSE 5000
